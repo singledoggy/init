@@ -77,7 +77,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'preservim/nerdtree'
 Plug 'easymotion/vim-easymotion'
 call plug#end()
-
+nmap <leader>p :PymodeLintAuto<cr>
 nmap ,v :nerdtreefind<cr>
 nmap ,g :NERDTreeToggle<cr>
 "=========ctrlp====
