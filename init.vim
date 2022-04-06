@@ -15,6 +15,7 @@ set history=1000
 set clipboard=unnamedplus
 " Pathogen load
 filetype off
+filetype plugin on
 filetype plugin indent on
 syntax on
 
@@ -80,12 +81,8 @@ Plug 'kien/ctrlp.vim'
 Plug 'preservim/nerdtree'
 Plug 'easymotion/vim-easymotion'
 call plug#end()
-nmap <leader>p :PymodeLintAuto<cr>
 nmap ,v :nerdtreefind<cr>
 nmap ,g :NERDTreeToggle<cr>
-"""""""""""""
-"  ipython  "
-"""""""""""""
 "------------------------------------------------------------------------------
 " slime configuration 
 "------------------------------------------------------------------------------
@@ -94,27 +91,6 @@ let g:slime_target = "tmux"
 let g:slime_default_config = {"socket_name": "default", "target_pane": "{last}"}
 let g:slime_python_ipython = 1
 let g:slime_dont_ask_default = 1
-
-" map <Leader>s to start IPython
-nnoremap <Leader>s :SlimeSend1 ipython --matplotlib<CR>
-
-" map <Leader>r to run script and time the execution
-nnoremap <Leader>r :IPythonCellRunTime<CR>
-
-" map <Leader>C to execute the current cell and jump to the next cell
-nnoremap <Leader>c :IPythonCellExecuteCellVerboseJump<CR>
-
-" map <Leader>Q to restart ipython
-nnoremap <Leader>Q :IPythonCellRestart<CR>
-
-" map [c and ]c to jump to the previous and next cell header
-nnoremap [c :IPythonCellPrevCell<CR>
-nnoremap ]c :IPythonCellNextCell<CR>
-"nmap <leader>N :IPythonCellInsertAbove<CR>a
-"nmap <leader>n :IPythonCellInsertBelow<CR>a
-"
-noremap <leader>o  :IPythonCellInsertBelow<CR>o
-let g:ipython_cell_tag = ['# %%', '#%%', '# <codecell>','# In[']
 
 "=========ctrlp====
 let g:ctrlp_map = '<c-p>'
@@ -142,25 +118,6 @@ let g:ncm2_jedi#python_version = 3
 let g:ncm2#matcher = 'substrfuzzy'
 
 "===============ncm2====
-
-""""""""""""
-"  pymode  "
-""""""""""""
-let g:pymode_lint_ignore = ["E501","E402","W0611"]
-let g:pymode_lint_on_write = 1
-let g:pymode_rope = 1
-
-let g:pymode_rope_goto_definition_bind = '<C-c>g'
-let g:pymode_rope_goto_definition_cmd = 'vnew'
-let g:pymode_rope_show_doc_bind = '<C-c>d'
-
-function! Pyclean()
-	echo "Clean python import"
-	silent exec '!isort  %:p'
-	silent exec '!autoflake --remove-all-unused-imports  -i %:p'
-endfunc
-
-command! Pyclean call Pyclean()
 
 function! ChineseCount() range
 	let save = @z
@@ -271,3 +228,19 @@ set conceallevel=1
 let g:vimtex_quickfix_mode=0
 let g:tex_conceal='abdmg'
 "vimtex
+" Open multiple lines (insert empty lines) before or after current line,
+" and position cursor in the new space, with at least one blank line
+" before and after the cursor.
+function! OpenLines(nrlines, dir)
+  let nrlines = a:nrlines < 3 ? 3 : a:nrlines
+  let start = line('.') + a:dir
+  call append(start, repeat([''], nrlines))
+  if a:dir < 0
+    normal! 2k
+  else
+    normal! 2j
+  endif
+endfunction
+" Mappings to open multiple lines and enter insert mode.
+nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>S
+nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>S
