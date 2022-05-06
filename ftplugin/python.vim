@@ -34,7 +34,7 @@ let g:ipython_cell_tag = ['# %%', '#%%', '# <codecell>','# In[']
 """"""""""""
 "  pymode  "
 """"""""""""
-let g:pymode_lint_ignore = ["E501","E402","W0611"]
+let g:pymode_lint_ignore = ["E501","E402","W0611","W0404"]
 let g:pymode_lint_on_write = 1
 let g:pymode_rope = 1
 
