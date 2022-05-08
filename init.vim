@@ -220,13 +220,16 @@ let g:UltiSnipsEditSplit="vertical"
 
 
 " Vimtex 
+syntax enable
+
 let g:tex_flavor = "latex"
 let g:vimtex_view_method='skim'
 let g:vimtex_view_skim_sync = 1 
 let g:vimtex_view_skim_activate = 1 
-set conceallevel=1
+"let g:vimtex_view_skim_sync = 1
+"
+set conceallevel=0
 let g:vimtex_quickfix_mode=0
-let g:tex_conceal='abdmg'
 "vimtex
 " Open multiple lines (insert empty lines) before or after current line,
 " and position cursor in the new space, with at least one blank line
@@ -244,3 +247,4 @@ endfunction
 " Mappings to open multiple lines and enter insert mode.
 nnoremap <Leader>o :<C-u>call OpenLines(v:count, 0)<CR>i
 nnoremap <Leader>O :<C-u>call OpenLines(v:count, -1)<CR>i
+
